@@ -1,18 +1,36 @@
 // Require the framework and instantiate it
-const fastify = require('fastify')({ logger: true })
+const fastify = require('fastify')
+const app = fastify()
 
-// Declare a route
-fastify.get('/', async (request, reply) => {
-  return { hello: 'world' }
+
+app.get('/gettest', async (req, res) => {
+    try {
+        let userId = req.query.userId
+        let xauth = req.headers.xauth
+        console.log(userId);
+        console.log(xauth);
+      return  res.send({ hello: 'world' })
+    } catch (error) {
+        console.log(error);
+    }
+  
+})
+// post
+app.post('/posttest', async (req, res) => {
+    try {
+        let {id} = req.body
+        console.log(id);
+      return  res.send({ hello: 'world' })
+    } catch (error) {
+        console.log(error);
+    }
+ 
 })
 
-// Run the server!
-const start = async () => {
-  try {
-    await fastify.listen({ port: 3000 })
-  } catch (err) {
-    fastify.log.error(err)
-    process.exit(1)
-  }
-}
-start()
+app.listen(8081, function (err, address) {
+    if (err) {
+        console.error(err)
+        process.exit(1)
+    }
+    console.log(`Server listening on ${address}`)
+})
