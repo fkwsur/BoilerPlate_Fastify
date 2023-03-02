@@ -3,30 +3,40 @@ const app = fastify({
     logger: true
   })
 const router = require('./routes');
+const dotenv = require('dotenv');
+dotenv.config();
+const db = require("./models");
 
-app.get('/gettest', async (req, res) => {
-    try {
-        let {userId} = req.query
-        let {xauth} = req.headers
-        console.log(userId);
-        console.log(xauth);
-      return  res.send({ hello: 'world' })
-    } catch (error) {
-        console.log(error);
-    }
-  
-})
-// post
-app.post('/posttest', async (req, res) => {
-    try {
-        let {id} = req.body
-        console.log(id);
-      return  res.send({ hello: 'world' })
-    } catch (error) {
-        console.log(error);
-    }
- 
-})
+const check_mysql_health = async () => {
+    setInterval(async () => {
+      try {
+        await db.sequelize.authenticate();
+      } catch (error) {
+        console.log("db ping error : ", error);
+      }
+    }, 60000 * 3);
+  };
+  // mysql + sequelize
+  db.sequelize
+    .authenticate()
+    .then(async () => {
+      try {
+        const { sequelize } = require("./models");
+        await sequelize.sync(true);
+        console.log("db connect ok");
+      } catch (err) {
+        console.log("seq:", err);
+      }
+    })
+    .catch(async (err) => {
+      console.log("db" + err);
+      await SlackAPI.SendErrorChannel({
+        location: "db -sequelize",
+        error: err.toString(),
+      });
+      process.exit(0);
+    });
+
 app.register(router.userRouter);
 app.register(router.ourFirstRouter);
 
@@ -37,3 +47,5 @@ app.listen(8081, function (err, host) {
     }
     console.log(`Server listening on ${host}`)
 })
+
+check_mysql_health();

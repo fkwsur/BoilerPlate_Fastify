@@ -1,10 +1,19 @@
+const {
+  user_info
+} = require("../models");
+
 module.exports = {
 
   Test : async (req, res) => {
     try {
         let {id} = req.body
-        console.log(id);
-      return  res.send({ result: '테스트 성공'  })
+        const rows = await user_info.findOne({
+          where : {user_id : id}
+        })
+        if (!rows) {
+          throw { code: 1 };
+      }
+      return  res.status(200).send({ result: rows  })
     } catch (error) {
         console.log(error);
     }
