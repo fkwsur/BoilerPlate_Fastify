@@ -2,7 +2,7 @@ const fastify = require('fastify');
 const app = fastify({
     logger: true
   })
-const router = require('./controller');
+const router = require('./routes');
 
 app.get('/gettest', async (req, res) => {
     try {

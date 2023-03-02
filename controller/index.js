@@ -1,7 +1,7 @@
-const userRouter = require("./user");
-const ourFirstRouter = require("./our-first-route.js");
+const userController = require("./user");
+const ourFirstController = require("./ourFirstRoute.js");
 
 module.exports = {
-    userRouter,
-    ourFirstRouter
+    userController,
+    ourFirstController
 };
