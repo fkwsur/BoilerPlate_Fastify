@@ -1,7 +1,8 @@
-// Require the framework and instantiate it
-const fastify = require('fastify')
-const app = fastify()
-
+const fastify = require('fastify');
+const app = fastify({
+    logger: true
+  })
+const router = require('./controller');
 
 app.get('/gettest', async (req, res) => {
     try {
@@ -26,11 +27,13 @@ app.post('/posttest', async (req, res) => {
     }
  
 })
+app.register(router.userRouter);
+app.register(router.ourFirstRouter);
 
-app.listen(8081, function (err, address) {
+app.listen(8081, function (err, host) {
     if (err) {
         console.error(err)
         process.exit(1)
     }
-    console.log(`Server listening on ${address}`)
+    console.log(`Server listening on ${host}`)
 })
