@@ -5,8 +5,8 @@ const app = fastify()
 
 app.get('/gettest', async (req, res) => {
     try {
-        let userId = req.query.userId
-        let xauth = req.headers.xauth
+        let {userId} = req.query
+        let {xauth} = req.headers
         console.log(userId);
         console.log(xauth);
       return  res.send({ hello: 'world' })
