@@ -37,10 +37,10 @@ const check_mysql_health = async () => {
       process.exit(0);
     });
 
-app.register(router.userRouter);
-app.register(router.ourFirstRouter);
+app.register(router.userRouter, { prefix: "/api/v1/user" });
+app.register(router.ourFirstRouter, { prefix: "/api/v1/ourfirst" });
 
-app.listen(8081, function (err, host) {
+app.listen(8081, (err, host) => {
     if (err) {
         console.error(err)
         process.exit(1)

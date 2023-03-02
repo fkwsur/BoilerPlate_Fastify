@@ -1,9 +1,11 @@
 const { ourFirstController: controller } = require("../controller");
 
-async function ourFirstRouter (fastify, options) {
+    const ourFirstRouter = (fastify, opt, done) => {
 
-    fastify.post('/ourfirst/test', controller.Test);
+    fastify.post('/test', controller.Test);
+    done();
+    
+};
 
-}
 
 module.exports = ourFirstRouter;
