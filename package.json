@@ -1,0 +1,8 @@
+{
+    "name": "fastify",
+    "version": "0.0.1",
+    "main": "app.js",
+    "dependencies": {
+        "fastify": "^4.13.0"
+    }
+}
